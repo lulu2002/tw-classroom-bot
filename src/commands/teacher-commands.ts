@@ -12,25 +12,14 @@ abstract class TeacherCommands {
         const guild = message.guild;
         const className = message.args.name
 
-        botEvents.emit('classCreate', className)
-
-        guild.roles.create({
-            data: {
-                name: className,
-                mentionable: false
-            }
-        })
-
-
         guild.channels.create(
             `${className}`,
             {type: "category",}
         ).then(value => {
-            guild.channels.create('公告區', {parent: value})
-            guild.channels.create('幹部討論區', {parent: value})
-            guild.channels.create('上課', {parent: value, type: "voice"})
+            botEvents.emit('classCreate', className, value)
         })
     }
+
 
     @Command("class delete :name")
     private deleteClass(message: CommandMessage) {
@@ -38,14 +27,18 @@ abstract class TeacherCommands {
         const name = message.args.name
 
         const category = guild.channels.findCategory(name)
+        const role = guild.roles.find(name)
 
-        if (category === null) {
+        if (category === null || role === null) {
             message.reply("找不到此班級")
             return
         }
 
-        (category as CategoryChannel).children.forEach(value => value.delete())
-        category.delete()
+        botEvents.emit('classDelete', category as CategoryChannel, role);
+
+        (category as CategoryChannel).children.forEach(value => value.delete());
+        (category as CategoryChannel).delete();
+        role.delete()
     }
 
     @CommandNotFound()
