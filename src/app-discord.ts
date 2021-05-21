@@ -9,7 +9,7 @@ import {
 abstract class AppDiscord {
     @On("message")
     private onMessage([message]: ArgsOf<"message">) {
-
+        //test
     }
 
     @On("ready")
