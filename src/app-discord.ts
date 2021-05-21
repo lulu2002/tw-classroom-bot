@@ -1,4 +1,5 @@
 import {
+    ArgsOf,
     Discord,
     On,
     Once
@@ -7,13 +8,13 @@ import {
 @Discord()
 abstract class AppDiscord {
     @On("message")
-    private onMessage() {
-        // ...
+    private onMessage([message]: ArgsOf<"message">) {
+
     }
 
     @On("ready")
     private onReady() {
-        console.log('Hello!')
+
     }
 
     @Once("messageDelete")

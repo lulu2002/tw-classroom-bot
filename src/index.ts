@@ -3,9 +3,7 @@ import Secret from "../secret.json";
 
 async function start() {
     const client = new Client({
-        classes: [
-            `./*Discord.ts`, // glob string to load the classes
-        ],
+        classes: [`${__dirname}/*.ts`],
         silent: false,
         variablesChar: ":"
     });
