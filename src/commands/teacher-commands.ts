@@ -1,15 +1,18 @@
-import {Command, CommandMessage, CommandNotFound, Description, Discord} from "@typeit/discord";
-import '../util/ex-guild'
+import {Client, Command, CommandMessage, CommandNotFound, Description, Discord} from "@typeit/discord";
 import {CategoryChannel} from "discord.js";
+import '../extensions'
+import {botEvents} from "../events";
 
 @Discord("*")
 @Description("Teacher Commands")
 abstract class TeacherCommands {
 
     @Command("class create :name")
-    private createClass(message: CommandMessage) {
-        const guild = message.guild
+    private createClass(message: CommandMessage, client: Client) {
+        const guild = message.guild;
         const className = message.args.name
+
+        botEvents.emit('classCreate', className)
 
         guild.roles.create({
             data: {
@@ -17,6 +20,7 @@ abstract class TeacherCommands {
                 mentionable: false
             }
         })
+
 
         guild.channels.create(
             `${className}`,

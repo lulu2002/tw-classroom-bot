@@ -1,4 +1,4 @@
-import {CategoryChannel, Channel, GuildChannelManager} from "discord.js";
+import {Channel, GuildChannelManager} from "discord.js";
 
 declare module 'discord.js' {
     interface GuildChannelManager {
